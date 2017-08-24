@@ -13,15 +13,23 @@ export default class App extends React.Component {
   }
 
   render() {
-    function testAlert() {
-      Alert.alert('Logged in!');
-      console.log('ok');
+    async function logIn() {
+      const firstResponse = await Expo.Facebook.logInWithReadPermissionsAsync('169279863643642', {
+          permissions: ['public_profile'],
+        });
+      console.log("1st response: ", firstResponse);
+      if (firstResponse.type === 'success') {
+        // Get the user's name using Facebook's Graph API
+        const response = await fetch(
+          `https://graph.facebook.com/me?access_token=${firstResponse.token}`);
+        console.log("2nd response", await response.json());
+      }
     }
     return (
       <View style={styles.container}>
         <Text>This will be a map</Text>
         <Text>Will there be hot reload</Text>
-        <TouchableOpacity onPress={ testAlert }>
+        <TouchableOpacity onPress={ logIn }>
           <Text>Login with Facebook</Text>
         </TouchableOpacity>
       </View>
