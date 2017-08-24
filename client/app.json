@@ -1,5 +1,16 @@
 {
   "expo": {
-    "sdkVersion": "20.0.0"
+   "name": "Pokemon Goes Native",
+   "icon": "./pikachu.png",
+   "version": "1.0.0",
+   "slug": "expo.o/@shadypeet/pokemon",
+   "sdkVersion": "20.0.0",
+   "facebookScheme": "fb169279863643642",
+   "ios": {
+     "bundleIdentifier": "com.petercheng.pokemon"
+   },
+   "android": {
+     "package": "com.petercheng.pokemon"
+   }
   }
 }

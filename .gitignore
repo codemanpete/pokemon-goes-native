@@ -15,3 +15,8 @@
 
 # Ignore Byebug command history file.
 .byebug_history
+
+# Ignore node modules and package dependencies
+node_modules/
+.expo/
+npm-debug.*
