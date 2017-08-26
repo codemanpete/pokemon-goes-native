@@ -2,13 +2,13 @@ import React from 'react';
 import { Provider, connect } from 'react-redux';
 import configureStore from './store';
 import { addNavigationHelpers } from 'react-navigation';
-import LoginNavigator from './navigators/login_navigator';
+import RootNavigator from './navigators/root_navigator';
 
 
-class Login extends React.Component {
+class Root extends React.Component {
   render() {
     return (
-      <LoginNavigator navigation={addNavigationHelpers({
+      <RootNavigator navigation={addNavigationHelpers({
         dispatch: this.props.dispatch,
         state: this.props.nav,
       })} />
@@ -20,16 +20,16 @@ const mapStateToProps = (state) => ({
   nav: state.nav
 });
 
-const LoginWithNavigation = connect(mapStateToProps)(Login);
+const RootWithNavigation = connect(mapStateToProps)(Root);
 
-class Root extends React.Component {
+class App extends React.Component {
   render() {
     return (
       <Provider store={configureStore()}>
-        <LoginWithNavigation />
+        <RootWithNavigation />
       </Provider>
     );
   }
 }
 
-export default Root;
+export default App;

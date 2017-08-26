@@ -1,10 +1,10 @@
 import { NavigationActions } from 'react-navigation';
-import LoginNavigator from '../navigators/login_navigator';
+import RootNavigator from '../navigators/root_navigator';
 
-const initialState = LoginNavigator.router.getStateForAction(NavigationActions.init([]));
+const initialState = RootNavigator.router.getStateForAction(NavigationActions.init([]));
 
 const navReducer = (state = initialState, action) => {
-  const nextState = LoginNavigator.router.getStateForAction(action, state);
+  const nextState = RootNavigator.router.getStateForAction(action, state);
   return nextState || state;
 };
 

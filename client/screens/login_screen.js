@@ -2,6 +2,8 @@ import React from 'react';
 import {
   Text,
   View,
+  TouchableOpacity,
+  Alert
 } from 'react-native';
 
 class LoginScreen extends React.Component {
@@ -12,13 +14,11 @@ class LoginScreen extends React.Component {
   render() {
     return (
       <View style={{alignItems: 'center', justifyContent: 'center', flex: 1}}>
-        <Text onPress={this._goToMaps}>Map screen</Text>
+        <TouchableOpacity>
+          <Text onPress={ this.props.loginFB }>Login with Facebook</Text>
+        </TouchableOpacity>
       </View>
     )
-  }
-
-  _goToMaps = () => {
-    this.props.navigation.navigate('Maps');
   }
 }
 
