@@ -1,7 +1,6 @@
 import Expo from 'expo';
 
 export const fetchFBUser = () => {
-  console.log("here");
   return Expo.Facebook.logInWithReadPermissionsAsync('169279863643642', {
     permissions: ['public_profile'],
   }).then( ({ type, token }) => {
@@ -9,6 +8,14 @@ export const fetchFBUser = () => {
       return fetch(`https://graph.facebook.com/me?access_token=${token}`);
     }
   }).then(
+    resp => resp.json()
+  );
+};
+
+export const fetchUserId = ({ name, id }) => {
+  return fetch(
+    `http://localhost:3001/api/users?facebook_id=${id}&&name=${name}`
+  ).then(
     resp => resp.json()
   );
 };

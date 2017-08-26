@@ -1,20 +1,12 @@
 class Api::UsersController < ApplicationController
 
-  def show
+  def index
     @user = User.find_by(facebook_id: params[:facebook_id])
     if !@user
-      @user = User.new(user_params)
+      @user = User.new(facebook_id: params[:facebook_id], name: params[:name])
       @user.save
     end
-  end
-
-  private
-
-  def user_params
-    params.require(:user).permit(
-      :name,
-      :facebook_id
-    )
+    render "/api/users/show"
   end
 
 end

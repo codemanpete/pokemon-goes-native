@@ -1,13 +1,13 @@
 import { connect } from 'react-redux';
 import LoginScreen from './login_screen';
 
-import { loginWithFacebook } from '../actions/login_actions';
+import { loginWithFacebook, fetchUserId } from '../actions/login_actions';
 
 const mapStateToProps = store => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  loginFB: () => dispatch(loginWithFacebook())
+  loginFB: () => dispatch(loginWithFacebook()),
 });
 
 

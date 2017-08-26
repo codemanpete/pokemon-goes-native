@@ -1,4 +1,4 @@
-import { RECEIVE_USER } from '../actions/login_actions';
+import { RECEIVE_USER, RECEIVE_USER_ID } from '../actions/login_actions';
 
 const _nullUser = {
   facebook_id: '',
@@ -10,13 +10,8 @@ const LoginReducer = (state = _nullUser, action) => {
   Object.freeze(state);
   switch(action.type){
     case RECEIVE_USER:
-      const user = {
-        facebook_id: action.user.id,
-        name: action.user.name,
-        id: null
-      };
-      console.log(user);
-      return user;
+      console.log(action.user);
+      return action.user;
     default:
       return state;
   }
