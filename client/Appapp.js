@@ -19,7 +19,6 @@ export default class App extends React.Component {
         });
       console.log("1st response: ", firstResponse);
       if (firstResponse.type === 'success') {
-        // Get the user's name using Facebook's Graph API
         const response = await fetch(
           `https://graph.facebook.com/me?access_token=${firstResponse.token}`);
         console.log("2nd response", await response.json());

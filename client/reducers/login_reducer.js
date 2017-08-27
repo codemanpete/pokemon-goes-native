@@ -10,7 +10,6 @@ const LoginReducer = (state = _nullUser, action) => {
   Object.freeze(state);
   switch(action.type){
     case RECEIVE_USER:
-      console.log(action.user);
       return action.user;
     default:
       return state;
