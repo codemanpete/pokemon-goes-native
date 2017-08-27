@@ -11,11 +11,19 @@ class LoginScreen extends React.Component {
     title: 'Login'
   };
 
+  loginAndRedirect () {
+    return async () => {
+      await this.props.loginFB();
+      this.props.navigation.navigate('Home');
+    }
+
+  }
+
   render() {
     return (
       <View style={{alignItems: 'center', justifyContent: 'center', flex: 1}}>
         <TouchableOpacity>
-          <Text onPress={ this.props.loginFB }>Login with Facebook</Text>
+          <Text onPress={ this.loginAndRedirect() }>Login with Facebook</Text>
         </TouchableOpacity>
       </View>
     )

@@ -3,7 +3,7 @@ import { MapView } from 'expo';
 
 class MapScreen extends React.Component {
   static navigationOptions = {
-    title: 'This is the map'
+    tabBarLabel: 'Map'
   };
 
   render() {
