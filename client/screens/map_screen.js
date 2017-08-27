@@ -21,6 +21,7 @@ class MapScreen extends React.Component {
         longitudeDelta: 0
       }
     };
+    this._lockDraggable = this._lockDraggable.bind(this);
   }
 
   componentWillMount() {
@@ -70,12 +71,17 @@ class MapScreen extends React.Component {
     navigator.geolocation.clearWatch(this.watchID);
   }
 
+  _lockDraggable() {
+    this.setState(this.state);
+  }
+
   render() {
     return (
       <MapView
         style={{ flex: 1 }}
         region={ this.state.region }
         zoomEnabled={false}
+        onRegionChange={ this._lockDraggable }
       />
     )
   }
