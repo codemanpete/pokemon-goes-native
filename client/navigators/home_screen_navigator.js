@@ -1,7 +1,7 @@
 import React from 'react';
 import { TabNavigator } from 'react-navigation';
 
-import MapScreen from '../screens/map_screen';
+import MapScreen from '../screens/map_screen_container';
 import HomeScreen from '../screens/home_screen';
 
 const HomeNavigator = TabNavigator({

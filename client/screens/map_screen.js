@@ -23,6 +23,20 @@ class MapScreen extends React.Component {
     };
   }
 
+  componentWillMount() {
+    for(var i = 1; i <= 5; i++) {
+      this.props.getEncounter(i);
+    }
+  }
+
+  // componentWillReceiveProps(nextProps) {
+  //   console.log("1: ", this.props.pokemon1);
+  //   console.log("2: ", this.props.pokemon2);
+  //   console.log("3: ", this.props.pokemon3);
+  //   console.log("4: ", this.props.pokemon4);
+  //   console.log("5: ", this.props.pokemon5);
+  // }
+
   watchID: ?number = null;
 
   componentDidMount() {
