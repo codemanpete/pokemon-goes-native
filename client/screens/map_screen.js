@@ -1,6 +1,6 @@
 import React from 'react';
 import { MapView } from 'expo';
-import { Dimensions } from 'react-native';
+import { Dimensions, View, Text, Image } from 'react-native';
 import { values } from 'lodash';
 
 const {width, height} = Dimensions.get('window');
@@ -41,14 +41,6 @@ class MapScreen extends React.Component {
       this.props.getEncounter(i);
     }
   }
-
-  // componentWillReceiveProps(nextProps) {
-  //   console.log("1: ", this.props.pokemon1);
-  //   console.log("2: ", this.props.pokemon2);
-  //   console.log("3: ", this.props.pokemon3);
-  //   console.log("4: ", this.props.pokemon4);
-  //   console.log("5: ", this.props.pokemon5);
-  // }
 
   watchID: ?number = null;
 
@@ -105,13 +97,26 @@ class MapScreen extends React.Component {
         zoomEnabled={false}
         onRegionChange={ this._lockDraggable }
       >
-        {values(this.state.markers).map( marker => (
-          <MapView.Marker
-            key={marker.index}
-            coordinate={marker.coordinates}
-            title={marker.index.toString()}
-          />
-        ))}
+        {values(this.state.markers).map( marker => {
+          const pokemon = this.props[marker.index];
+          const typesString = pokemon.type1 + (pokemon.type2 ? '/' + pokemon.type2 : '');
+          return(
+            <MapView.Marker
+              key={marker.index}
+              coordinate={marker.coordinates}
+              image={{uri: pokemon.image_url}}
+              >
+              <MapView.Callout>
+                <View>
+                  <Text>{`Click to catch ${pokemon.name} (lv: ${pokemon.level})`}</Text>
+                  <Text>{`Type: ${typesString}`}</Text>
+                  <Text>{`Moves: ${pokemon.move1}/${pokemon.move2}`}</Text>
+                </View>
+              </MapView.Callout>
+            </MapView.Marker>
+          );
+        }
+      )}
       </MapView>
     )
   }
