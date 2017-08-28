@@ -1,24 +1,11 @@
-# README
+# Pokemon Goes Native
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Pokemon Goes Native is a full stack mobile app game. It features a Rails 5 backend for storing user information and was built with Create React Native App.
 
-Things you may want to cover:
+After installing all dependencies,
+```
+rake start
+```
+will simultaneously boot the backend and the mobile app.
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+NB: only iOS is supported at this time.
