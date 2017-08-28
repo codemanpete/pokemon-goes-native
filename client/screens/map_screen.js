@@ -1,10 +1,21 @@
 import React from 'react';
 import { MapView } from 'expo';
 import { Dimensions } from 'react-native';
+import { values } from 'lodash';
 
 const {width, height} = Dimensions.get('window');
 const LATITUDE_DELTA = 0.001844;
 const LONGITUDE_DELTA =  LATITUDE_DELTA * width / height;
+
+const randPoint = (lat, long, index) => {
+  return {
+    coordinates: {
+      latitude: lat - LATITUDE_DELTA * 0.3 + Math.random() * LATITUDE_DELTA * 0.6,
+      longitude: long - LONGITUDE_DELTA * 0.3 + Math.random() * LONGITUDE_DELTA * 0.6
+    },
+    index
+  };
+};
 
 class MapScreen extends React.Component {
   static navigationOptions = {
@@ -19,13 +30,14 @@ class MapScreen extends React.Component {
         longitude: 0,
         latitudeDelta: 0,
         longitudeDelta: 0
-      }
+      },
+      markers: {}
     };
     this._lockDraggable = this._lockDraggable.bind(this);
   }
 
   componentWillMount() {
-    for(var i = 1; i <= 5; i++) {
+    for(var i = 0; i < 5; i++) {
       this.props.getEncounter(i);
     }
   }
@@ -51,6 +63,11 @@ class MapScreen extends React.Component {
         longitudeDelta: LONGITUDE_DELTA
       };
       this.setState({ region: initialRegion });
+      var markers = {};
+      for (var i = 0; i < 5; i++) {
+        Object.assign(markers, { [i]: randPoint(latitude, longitude, i) });
+      }
+      this.setState({ markers });
     }, error => alert(JSON.stringify(error)),
     {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000});
 
@@ -64,6 +81,11 @@ class MapScreen extends React.Component {
         longitudeDelta: LONGITUDE_DELTA
       };
       this.setState({ region: nextRegion });
+      var markers = {};
+      for (var i = 0; i < 5; i++) {
+        Object.assign(markers, { [i]: randPoint(latitude, longitude, i) });
+      }
+      this.setState({ markers });
     });
   }
 
@@ -82,7 +104,15 @@ class MapScreen extends React.Component {
         region={ this.state.region }
         zoomEnabled={false}
         onRegionChange={ this._lockDraggable }
-      />
+      >
+        {values(this.state.markers).map( marker => (
+          <MapView.Marker
+            key={marker.index}
+            coordinate={marker.coordinates}
+            title={marker.index.toString()}
+          />
+        ))}
+      </MapView>
     )
   }
 }
