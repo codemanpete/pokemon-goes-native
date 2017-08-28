@@ -7,7 +7,8 @@ class Api::PokemonController < ApplicationController
   end
 
   def create
-    @pokemon = Pokemon.new(pokemon_params, user_id: params[:user_id])
+    pokemon = Pokemon.new(pokemon_params)
+    pokemon.save!
     user = User.find(params[:user_id])
     @all_pokemon = user.pokemon
     render "/api/pokemon/index"
@@ -25,7 +26,7 @@ class Api::PokemonController < ApplicationController
       :move2,
       :number,
       :image_url
-    )
+    ).merge(user_id: params[:user_id])
   end
 
 end

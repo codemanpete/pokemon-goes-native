@@ -89,6 +89,13 @@ class MapScreen extends React.Component {
     this.setState(this.state);
   }
 
+  _catchPokemon(pokemon, index) {
+    return () => {
+      this.props.catchPokemon(pokemon, this.props.userId);
+      this.props.getEncounter(index);
+    };
+  }
+
   render() {
     return (
       <MapView
@@ -106,7 +113,7 @@ class MapScreen extends React.Component {
               coordinate={marker.coordinates}
               image={{uri: pokemon.image_url}}
               >
-              <MapView.Callout>
+              <MapView.Callout onPress={ this._catchPokemon(pokemon, marker.index) }>
                 <View>
                   <Text>{`Click to catch ${pokemon.name} (lv: ${pokemon.level})`}</Text>
                   <Text>{`Type: ${typesString}`}</Text>

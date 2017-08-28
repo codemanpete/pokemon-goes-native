@@ -12,3 +12,9 @@ export const receiveAllPokemon = pokemonArray => ({
   type: RECEIVE_ALL_POKEMON,
   pokemonArray
 });
+
+export const catchPokemon = (pokemon, userId) => dispatch => (
+  APIPokemonUtil.savePokemon(pokemon, userId).then(
+    pokemonArray => dispatch(receiveAllPokemon(pokemonArray))
+  )
+);
