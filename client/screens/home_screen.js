@@ -30,7 +30,7 @@ class HomeScreen extends React.Component {
             <View>
               <Text>{`${pokemon.name} level: ${pokemon.level}`}</Text>
               <Text>{`Type: ${pokemon.type1}`}</Text>
-              <Text>{`Moves: ${pokemon.move1}`}</Text>
+              <Text>{`Moves: ${pokemon.move1}/${pokemon.move2}`}</Text>
             </View>
           </View>
         ))}
