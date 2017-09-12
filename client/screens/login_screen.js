@@ -13,8 +13,12 @@ class LoginScreen extends React.Component {
 
   loginAndRedirect () {
     return async () => {
-      await this.props.loginFB();
-      this.props.navigation.navigate('Home');
+      const response = await this.props.loginFB();
+      if(!response.error) {
+        this.props.navigation.navigate('Home');
+      } else {
+        console.log(response.error);
+      }
     }
   }
 

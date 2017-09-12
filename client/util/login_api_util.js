@@ -6,6 +6,8 @@ export const fetchFBUser = () => {
   }).then( ({ type, token }) => {
     if (type === 'success') {
       return fetch(`https://graph.facebook.com/me?access_token=${token}`);
+    } else if (type === 'cancel') {
+      throw "login canceled";
     }
   }).then(
     resp => resp.json()

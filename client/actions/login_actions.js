@@ -5,7 +5,8 @@ export const RECEIVE_USER_ID = "RECEIVE_USER_ID";
 
 export const loginWithFacebook = () => dispatch => (
   APILoginUtil.fetchFBUser().then(
-    fbUser => dispatch(fetchUserId(fbUser))
+    fbUser => dispatch(fetchUserId(fbUser)),
+    e => ({ error: e })
   )
 );
 
