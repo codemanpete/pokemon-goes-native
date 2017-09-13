@@ -78,7 +78,8 @@ class MapScreen extends React.Component {
         Object.assign(markers, { [i]: randPoint(latitude, longitude, i) });
       }
       this.setState({ markers });
-    });
+    }, error => alert(JSON.stringify(error)),
+    {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000});
   }
 
   componentWillUnmount() {
