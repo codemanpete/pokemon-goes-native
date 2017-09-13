@@ -6,6 +6,7 @@ const _nullUser = {
   name: ''
 };
 
+// stores the name, user id, and facebook_id for each user.
 const LoginReducer = (state = _nullUser, action) => {
   Object.freeze(state);
   switch(action.type){

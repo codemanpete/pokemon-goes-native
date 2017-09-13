@@ -4,6 +4,9 @@ const _initialState = {
   pokemon: []
 };
 
+// All of the pokemon for a certain user are stored in an array in store.
+// Pokemon attributes match the names on the backend which are in
+// snake_case and not camelCase.
 const PokemonReducer = (state = _initialState, action) => {
   Object.freeze(state);
   switch(action.type){

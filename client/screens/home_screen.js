@@ -16,6 +16,7 @@ class HomeScreen extends React.Component {
     this.props.fetchAllPokemon(this.props.userId)
   }
 
+  // displays all information for a user's pokemon.
   render() {
     return (
       <ScrollView>

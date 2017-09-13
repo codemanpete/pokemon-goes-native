@@ -48,6 +48,10 @@ class MapScreen extends React.Component {
 
   watchID: ?number = null;
 
+  // Gets the current geolocation for the device and sets the state to
+  // that location. Also randomly generates 5 markers within an innerbox
+  // for that given location.
+  // TODO: combine repeated code.
   componentDidMount() {
     navigator.geolocation.getCurrentPosition( position => {
       var latitude = parseFloat(position.coords.latitude);
@@ -88,10 +92,6 @@ class MapScreen extends React.Component {
 
   componentWillUnmount() {
     navigator.geolocation.clearWatch(this.watchID);
-  }
-
-  componentWillReceiveProps(nextProps) {
-
   }
 
 // will trigger re-render function to recenter the map on original
