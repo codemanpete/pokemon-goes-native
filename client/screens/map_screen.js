@@ -7,6 +7,7 @@ const {width, height} = Dimensions.get('window');
 const LATITUDE_DELTA = 0.001844;
 const LONGITUDE_DELTA =  LATITUDE_DELTA * width / height;
 
+// generates a random point within an innerbox within the bounds of the map.
 const randPoint = (lat, long, index) => {
   return {
     coordinates: {
@@ -31,11 +32,14 @@ class MapScreen extends React.Component {
         latitudeDelta: 0,
         longitudeDelta: 0
       },
-      markers: {}
+      markers: {},
+      hidden: new Set()
     };
     this._lockDraggable = this._lockDraggable.bind(this);
+    this.renderMarker = this.renderMarker.bind(this);
   }
 
+// fetches information on 5 pokemon as the map screen is mounting.
   componentWillMount() {
     for(var i = 0; i < 5; i++) {
       this.props.getEncounter(i);
@@ -86,15 +90,71 @@ class MapScreen extends React.Component {
     navigator.geolocation.clearWatch(this.watchID);
   }
 
-  _lockDraggable() {
+  componentWillReceiveProps(nextProps) {
+
+  }
+
+// will trigger re-render function to recenter the map on original
+// position from geolocation when user drags the map.
+  _lockDraggable () {
     this.setState(this.state);
   }
 
-  _catchPokemon(pokemon, index) {
-    return () => {
+  _hideAtIndex (index) {
+    const newHidden = new Set(this.state.hidden);
+    newHidden.add(index);
+    this.setState({ hidden: newHidden });
+  }
+
+  _updateMarkerPos (index) {
+    const newHidden = new Set(this.state.hidden);
+    newHidden.delete(index);
+
+    const newPos = randPoint(this.state.region.latitude, this.state.region.longitude, index);
+    const newMarkers = Object.assign({}, this.state.markers, { [index]: newPos });
+
+    this.setState({ hidden: newHidden, markers: newMarkers });
+  }
+
+// First, hides the marker so the same pokemon will not render as
+// the app is storing the info to the backend. Stores the pokemon to
+// the backend and calls for another random encounter from poke API.
+// Upon success, _updateMarkerPos will first unhide the marker and then
+// generate another random location for the marker with a new encounter.
+  _catchPokemon (pokemon, index) {
+    return async () => {
+      this._hideAtIndex(index);
       this.props.catchPokemon(pokemon, this.props.userId);
-      this.props.getEncounter(index);
+      await this.props.getEncounter(index);
+      this._updateMarkerPos(index);
     };
+  }
+
+// renders the marker on the map
+// The 5 pokemon (index of 0 to 4) that are stored in state correlates
+// to 5 marker positions (also 0-4). The markers are randomly generated
+// when the map updates on geolocation.
+  renderMarker (marker) {
+    const pokemon = this.props[marker.index];
+    const typesString = pokemon.type1 + (pokemon.type2 ? '/' + pokemon.type2 : '');
+    if (this.state.hidden.has(marker.index)) {
+      return;
+    }
+    return(
+      <MapView.Marker
+        key={marker.index}
+        coordinate={marker.coordinates}
+        image={{uri: pokemon.image_url}}
+        >
+        <MapView.Callout onPress={ this._catchPokemon(pokemon, marker.index) }>
+          <View>
+            <Text>{`Click to catch ${pokemon.name} (lv: ${pokemon.level})`}</Text>
+            <Text>{`Type: ${typesString}`}</Text>
+            <Text>{`Moves: ${pokemon.move1}/${pokemon.move2}`}</Text>
+          </View>
+        </MapView.Callout>
+      </MapView.Marker>
+    );
   }
 
   render() {
@@ -105,26 +165,7 @@ class MapScreen extends React.Component {
         zoomEnabled={false}
         onRegionChange={ this._lockDraggable }
       >
-        {values(this.state.markers).map( marker => {
-          const pokemon = this.props[marker.index];
-          const typesString = pokemon.type1 + (pokemon.type2 ? '/' + pokemon.type2 : '');
-          return(
-            <MapView.Marker
-              key={marker.index}
-              coordinate={marker.coordinates}
-              image={{uri: pokemon.image_url}}
-              >
-              <MapView.Callout onPress={ this._catchPokemon(pokemon, marker.index) }>
-                <View>
-                  <Text>{`Click to catch ${pokemon.name} (lv: ${pokemon.level})`}</Text>
-                  <Text>{`Type: ${typesString}`}</Text>
-                  <Text>{`Moves: ${pokemon.move1}/${pokemon.move2}`}</Text>
-                </View>
-              </MapView.Callout>
-            </MapView.Marker>
-          );
-        }
-      )}
+        {values(this.state.markers).map( this.renderMarker )}
       </MapView>
     )
   }
